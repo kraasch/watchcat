@@ -62,7 +62,7 @@ def read_watchconf(watchconf_path, target_dir):
             # log reports.
             report.append([full_rule_path, errors, warnings])
     else:
-        print(f'Error: no watchconf file ("{watchconf_path}")for watchcat target di/home/kpop/temp/.rectory "{target_dir}"')
+        print(f'Error: no watchconf file ("{watchconf_path}") for watchcat target directory "{target_dir}"')
     watchdir_reports.append([target_dir, report])
 
 def open_watchcat_directories():
