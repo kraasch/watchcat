@@ -43,14 +43,14 @@ def read_watchconf(watchconf_path, target_dir):
             warnings = []
             errors = []
 
-            # check if exists.
+            # check if directory exists, otherwise create directory.
             if 'e' in codes:
                 if not rule_path == '.': # do not create a directory named dot for the repository root.
                     if not full_rule_path.exists(): # create directory if it does not exist.
                         full_rule_path.mkdir(parents=True, exist_ok=True)
                         warnings.append(f'Warning: was created')
 
-            # check if zero.
+            # check if directory is zero (empty), otherwise alert.
             if 'z' in codes:
                 for file in list(full_rule_path.iterdir()): # list all files in directory.
                     file = file.relative_to(target_dir)
@@ -72,15 +72,20 @@ def open_watchcat_directories():
         read_watchconf(watchconf_path, target_dir)
 
 def print_reports(watchdir_reports, level=3):
+    NL = os.linesep
+    result = ''
     for target_dir, reports in watchdir_reports:
         for rule_path, errors, warnings in reports:
             if level == 2: # log per rule.
-                print(f'{rule_path}: {len(errors)}, {len(warnings)}')
-            if level == 3: # log per report
+                result+=f'{rule_path}: {len(errors)}, {len(warnings)}' + NL
+            elif level == 3: # log per report
                 for warning in warnings:
-                    print(f'{rule_path}: {warning}')
+                    result+=f'{rule_path}: {warning}' + NL
                 for error in errors:
-                    print(f'{rule_path}: {error}')
+                    result+=f'{rule_path}: {error}' + NL
+    if result == '':
+        result = '✓'
+    print(result)
 
 if __name__ == '__main__':
     # parse arguments.
