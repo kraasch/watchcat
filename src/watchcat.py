@@ -7,6 +7,7 @@
 import os
 import pathlib
 import argparse
+import re
 
 watchcat_modes = [
     'info',  # TODO: options: --level --> show the info with certain details (repo, root_folders, rule, report)
@@ -14,6 +15,7 @@ watchcat_modes = [
 ]
 
 watchconf_name = 'Watchconf'
+home_path = pathlib.Path('~').expanduser()
 targets_file = '~/.config/watchcat/targets.txt'
 targets_file = pathlib.Path('~/.config/watchcat/targets.txt').expanduser()
 watchdir_reports = []
@@ -75,16 +77,18 @@ def print_reports(watchdir_reports, level=3):
     NL = os.linesep
     result = ''
     for target_dir, reports in watchdir_reports:
+        watchdir_result = ''
         for rule_path, errors, warnings in reports:
             if level == 2: # log per rule.
-                result+=f'{rule_path}: {len(errors)}, {len(warnings)}' + NL
+                watchdir_result+=f'{rule_path}: {len(errors)}, {len(warnings)}' + NL
             elif level == 3: # log per report
                 for warning in warnings:
-                    result+=f'{rule_path}: {warning}' + NL
+                    watchdir_result+=f'{rule_path}: {warning}' + NL
                 for error in errors:
-                    result+=f'{rule_path}: {error}' + NL
-    if result == '':
-        result = '✓'
+                    watchdir_result+=f'{rule_path}: {error}' + NL
+        if watchdir_result == '':
+            without_home = re.sub(r'^' + str(home_path), '~', str(target_dir)) # make home path into tilde.
+            result += without_home + ': ✓' + NL
     print(result)
 
 if __name__ == '__main__':
