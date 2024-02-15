@@ -3,6 +3,16 @@
 
 ## to-dos
 
+first.
+
+ - [ ] write in GO language.
+ - [ ] merge in GITWALKER project.
+
+ - [ ] MAYBE: merge in HUB project.
+ - [ ] MAYBE: merge in BDIRBS project.
+
+later.
+
  - [ ] feature: allow watchcat directories to be git repos.
  - [ ] feature: give watchcat the ability to check for the existence of certain git remote addresses.
  - [ ] implement checking the rules and alert (positive and negative).
