@@ -14,10 +14,10 @@ watchcat_modes = [
     'check', # TODO: options: --force --> do not preview files, just create specified state.
 ]
 
-watchconf_name = 'Watchconf'
-home_path = pathlib.Path('~').expanduser()
-targets_file = '~/.config/watchcat/targets.txt'
-targets_file = pathlib.Path('~/.config/watchcat/targets.txt').expanduser()
+watchconf_name   = 'Watchconf'
+home_path        = pathlib.Path('~').expanduser()
+targets_file     = '~/.config/watchcat/targets.txt'
+targets_file     = pathlib.Path('~/.config/watchcat/targets.txt').expanduser()
 watchdir_reports = []
 
 def read_watchconf(watchconf_path, target_dir):
