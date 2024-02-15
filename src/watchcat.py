@@ -73,8 +73,9 @@ def read_watchconf(watchconf_path, target_dir):
 def open_watchcat_directories():
     for target_dir in targets_file.read_text().splitlines():
         target_dir = pathlib.Path(target_dir).expanduser()
-        paths = [str(Path(p)) for p in glob(target_dir)]
+        paths = [str(Path(p)) for p in glob(str(target_dir))]
         for path in paths:
+            path = pathlib.Path(path)
             watchconf_path = path / watchconf_name
             read_watchconf(watchconf_path, path)
 
