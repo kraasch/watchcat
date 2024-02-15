@@ -9,6 +9,9 @@ import pathlib
 import argparse
 import re
 
+from glob import glob
+from pathlib import Path
+
 watchcat_modes = [
     'info',  # TODO: options: --level --> show the info with certain details (repo, root_folders, rule, report)
     'check', # TODO: options: --force --> do not preview files, just create specified state.
@@ -70,8 +73,10 @@ def read_watchconf(watchconf_path, target_dir):
 def open_watchcat_directories():
     for target_dir in targets_file.read_text().splitlines():
         target_dir = pathlib.Path(target_dir).expanduser()
-        watchconf_path = target_dir / watchconf_name
-        read_watchconf(watchconf_path, target_dir)
+        paths = [str(Path(p)) for p in glob(target_dir)]
+        for path in paths:
+            watchconf_path = path / watchconf_name
+            read_watchconf(watchconf_path, path)
 
 def print_reports(watchdir_reports, level=3):
     NL = os.linesep
