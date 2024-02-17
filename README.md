@@ -13,8 +13,10 @@ first.
 
 later.
 
+
  - [ ] feature: allow watchcat directories to be git repos.
  - [ ] feature: give watchcat the ability to check for the existence of certain git remote addresses.
+ - [ ] feature: restore computer setup from a list of directories and git remotes.
  - [ ] implement checking the rules and alert (positive and negative).
  - [ ] implement linting of rules.
  - [ ] implement profiles or Watchconf files (ie user-specified profiles, in addition to pre-defined profiles: eg media store for videos and music, categorized media store, projects of restricted complexity).
@@ -23,6 +25,8 @@ later.
  - [ ] decide what to do if a git repo includes a watchconf file.
  - [ ] maybe use other linter or C module to identify size of direcotries faster.
  - [ ] implement the following watchconf codes.
+
+
  - [ ] make tests for all watchconf codes (and permutations).
  - [ ] # WATCHCONF CODES (default linting: alert about broken rules).
    - [ ] i             = ignore directory (ensure no rules are specified for directory subtree).
