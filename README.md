@@ -6,13 +6,19 @@
 first.
 
  - [ ] write in GO language.
+   + [ ] checkout "github.com/go-git/go-git/v5"
+   + [ ] open file, read line by line, each line is a path and a rule set for that path.
+   + [ ] path can contain home: replace home directory.
+   + [ ] search find files in path.
+   + [ ] see tree behind that path matches rule set.
+   + [ ] print git status from within go, list uncommited changes.
+   + [ ] print git status from within go, list unpushed changes.
  - [ ] merge in GITWALKER project.
 
  - [ ] MAYBE: merge in HUB project.
  - [ ] MAYBE: merge in BDIRBS project.
 
 later.
-
 
  - [ ] feature: allow watchcat directories to be git repos.
  - [ ] feature: give watchcat the ability to check for the existence of certain git remote addresses.
