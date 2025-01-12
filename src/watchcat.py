@@ -1,9 +1,5 @@
 #! /bin/python3
 
-#> synopsis: TODO: write down.
-#> type:     TODO: write down.
-#> comment:  TODO: write down.
-
 import os
 import pathlib
 import argparse
