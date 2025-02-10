@@ -39,6 +39,17 @@ A collection of constraints to the file system, with the following features:
     - [ ] Automatically run shellcheck on shell files.
     - [ ] Have a daemon or cron job that checks for integrity on remote servers (?).
 
+Tool: recursive file tree manager.
+
+  - [ ] creates `.DGE` subdirectory .
+  - [ ] each tree is fully managed until it ends in leaves.
+  - [ ] managed means a rule has to be declared for each directory or file (path).
+  - [ ] each path has to match a declared pattern.
+  - [ ] leaves can generated TODOs.
+  - [ ] leaves can be other DGE projects.
+  - [ ] have commands to put file under and out of control.
+    - `DGE add <file-name>` -- add file to control.
+    - `DGE remove <file-name>` -- remove file from control.
 
 Tool: tagger.
 
@@ -162,3 +173,4 @@ Later.
 ./folderD/          t(txt,srt,sub,mp4)
 ./folderE/          t(mp3)
 ```
+
