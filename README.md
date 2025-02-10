@@ -39,6 +39,17 @@ A collection of constraints to the file system, with the following features:
     - [ ] Automatically run shellcheck on shell files.
     - [ ] Have a daemon or cron job that checks for integrity on remote servers (?).
 
+
+Tool: tagger.
+
+  - [ ] watch over a directory of similar media files (eg my film/picture/music/meme collection).
+  - [ ] tag individual files
+  - [ ] run checks on the tags: tag groups cover all files.
+  - [ ] run checks on the tags: tag groups do not tag a file twice.
+  - [ ] group tags together to groups.
+  - [ ] define and check constraints on groups.
+    - [ ] eg mutually exclusive groups
+
 Tool: directory graph enforcer (DGE)
 
   - Should become a tool to easily check if a directory structure conforms to certain rules specified in a rule file.
