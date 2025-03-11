@@ -9,11 +9,13 @@ Demo picture:
   <img src="./resources/example.png" width="300"/>
 </p>
 
-[//]: # Demo GIF:
-[//]: # 
-[//]: # <p align="center">
-[//]: #   <img src="./resources/demo.gif" width="300"/>
-[//]: # </p>
+<!--
+Demo GIF:
+
+<p align="center">
+  <img src="./resources/demo.gif" width="300"/>
+</p>
+-->
 
 ## Features
 
