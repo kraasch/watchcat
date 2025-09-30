@@ -21,7 +21,7 @@ List of features
 
 Next:
 
-  - [ ] extract `./pkg/gocfg/` into its own repo at `github.com/kraasch/gocfg`.
+  - [ ] xxx
 
 Later:
 
