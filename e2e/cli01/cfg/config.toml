@@ -1,0 +1,10 @@
+
+[[targets]]
+name = "main"
+type = "config-relative" # Allowed: "absolute", "config-relative".
+dir = "../targetDir0/"
+
+[[targets]]
+name = "secondary"
+type = "config-relative"
+dir = "../targetDir1/"
