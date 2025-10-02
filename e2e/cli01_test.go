@@ -86,16 +86,16 @@ func TestWatchcatCliPrintConfigCommand(t *testing.T) {
 	setup(t)
 	cmd := exec.Command("./../build/watchcat", "-config", "../e2e/cli01/cfg", "-mode", "print-config")
 	expected := // expected program output.
-	"main (config)" + NL +
-		"  firefox" + NL +
-		"  downloads" + NL +
-		"  downloads/done" + NL +
-		"  downloads/incomplete" + NL +
-		"secondary (Watchconf)" + NL +
-		"  firefox" + NL +
-		"  downloads" + NL +
-		"  downloads/done" + NL +
-		"  downloads/incomplete"
+	"main (config)          |" + NL +
+		"  firefox              |" + NL +
+		"  downloads            |" + NL +
+		"  downloads/done       |" + NL +
+		"  downloads/incomplete |" + NL +
+		"secondary (Watchconf)  |" + NL +
+		"  firefox              |" + NL +
+		"  downloads            |" + NL +
+		"  downloads/done       |" + NL +
+		"  downloads/incomplete |"
 	actual := captureAndExecute(t, cmd)
 	verify(t, actual, expected)
 	cleanup(t)

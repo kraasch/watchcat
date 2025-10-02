@@ -100,6 +100,25 @@ func (w *Watchcat) readWatchconf(target *gocfg.Target) error {
 	return nil
 }
 
+// padLinesToLongest adds padding for each line.
+func padLinesToLongest(input string) string {
+	lines := strings.Split(input, NL)
+	// Find the line with the maximum length.
+	maxLen := 0
+	for _, line := range lines {
+		if len(line) > maxLen {
+			maxLen = len(line)
+		}
+	}
+	// Pad each line with spaces to match the maximum.
+	for i, line := range lines {
+		padding := maxLen - len(line)
+		lines[i] = line + strings.Repeat(" ", padding+1) + "|"
+	}
+	// Join the lines back into a single string.
+	return strings.Join(lines, NL)
+}
+
 func (w *Watchcat) PrintConfig() string {
 	var sb strings.Builder
 	length := len(w.toml.Targets)
@@ -120,5 +139,5 @@ func (w *Watchcat) PrintConfig() string {
 			sb.WriteString(NL)
 		}
 	}
-	return sb.String()
+	return padLinesToLongest(sb.String())
 }
