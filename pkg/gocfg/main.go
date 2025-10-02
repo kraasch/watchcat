@@ -4,35 +4,55 @@ package gocfg
 import (
 	"fmt"
 	"os"
+	"strings"
 
 	toml "github.com/pelletier/go-toml"
 )
 
-type Config struct {
+type WatchcatConfig struct {
 	Filename string
 	Path     string
 }
 
-var osSep = string(os.PathSeparator)
+var SEP = string(os.PathSeparator)
 
-func (c *Config) ReadRawText() (string, error) {
-	path := c.Path + osSep + c.Filename
-	data, err := os.ReadFile(path)
+func ReadRawText(fullPath string) (string, error) {
+	data, err := os.ReadFile(fullPath)
+	return string(data), err
+}
+
+// InsertSeparator inserts a file path separator symbol, if path does not end in it yet.
+func InsertSeparator(path, name string) string {
+	var infix string
+	if !strings.HasSuffix(path, SEP) {
+		infix = SEP
+	}
+	targetPath := path + infix + name
+	return targetPath
+}
+
+func (c *WatchcatConfig) GetPath() string {
+	return InsertSeparator(c.Path, c.Filename)
+}
+
+func (c *WatchcatConfig) ReadConfigRawText() (string, error) {
+	data, err := ReadRawText(c.GetPath())
 	return string(data), err
 }
 
 type Target struct {
-	Name  string
-	Dir   string
-	Rules string // multiline string
+	Name          string
+	Dir           string
+	RulesLocation string
+	Rules         string // multiline string
 }
 
 type SerializedConfig struct {
 	Targets []Target `toml:"targets"`
 }
 
-func (c *Config) ParseToml() (SerializedConfig, error) {
-	raw, err0 := c.ReadRawText()
+func (c *WatchcatConfig) ParseToml() (SerializedConfig, error) {
+	raw, err0 := c.ReadConfigRawText()
 	if err0 != nil {
 		return SerializedConfig{}, err0
 	}

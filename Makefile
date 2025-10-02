@@ -18,6 +18,9 @@ test_unit:
 	go clean -testcache
 	go test -v ./pkg/...
 
+clean:
+	rm -r ./e2e/cli01/
+
 run:
 	go run ./cmd/watchcat.go
 

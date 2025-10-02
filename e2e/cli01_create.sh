@@ -24,4 +24,4 @@ cp -r ./cli01/targetDir0 ./cli01/targetDir1
 
 # insert files.
 cp ./cli01_assets/config.toml cli01/cfg/config.toml
-cp ./cli01_assets/watchcat.txt cli01/targetDir1/.Watchcat
+cp ./cli01_assets/watchcat.txt cli01/targetDir1/.Watchconf

@@ -45,7 +45,12 @@ func captureAndExecute(t *testing.T, cmd *exec.Cmd) string {
 }
 
 func verify(t *testing.T, actual string, expected string) {
+	COL := "\n########################################\n"
+	actual = highlightSpaces(actual)
+	expected = highlightSpaces(expected)
 	if actual != expected {
+		actual = COL + actual + COL
+		expected = COL + expected + COL
 		t.Errorf("Output mismatch.\nExpected: %s\nGot: %s", expected, actual)
 	}
 }
@@ -68,22 +73,30 @@ func setup(t *testing.T) {
 
 func TestWatchcatCliListCommand(t *testing.T) {
 	setup(t)
-	cmd := exec.Command("./../build/watchcat", "-config", "../e2e/cli01/cfg", "-list")
+	cmd := exec.Command("./../build/watchcat", "-config", "../e2e/cli01/cfg", "-mode", "list")
 	expected := // expected program output.
 	"main" + NL +
 		"secondary" + NL
 	actual := captureAndExecute(t, cmd)
-	verify(t, highlightSpaces(actual), highlightSpaces(expected))
+	verify(t, actual, expected)
 	cleanup(t)
 }
 
-// func TestWatchcatCliPrintConfigCommand(t *testing.T) {
-// 	setup(t)
-// 	cmd := exec.Command("./../build/watchcat", "-config", "../e2e/cli01/cfg", "-list")
-// 	expected := // expected program output.
-// 	"main" + NL +
-// 		"secondary"
-// 	actual := captureAndExecute(t, cmd)
-// 	verify(t, actual, expected)
-// 	cleanup(t)
-// }
+func TestWatchcatCliPrintConfigCommand(t *testing.T) {
+	setup(t)
+	cmd := exec.Command("./../build/watchcat", "-config", "../e2e/cli01/cfg", "-mode", "print-config")
+	expected := // expected program output.
+	"main (config)" + NL +
+		"  firefox" + NL +
+		"  downloads" + NL +
+		"  downloads/done" + NL +
+		"  downloads/incomplete" + NL +
+		"secondary (Watchconf)" + NL +
+		"  firefox" + NL +
+		"  downloads" + NL +
+		"  downloads/done" + NL +
+		"  downloads/incomplete"
+	actual := captureAndExecute(t, cmd)
+	verify(t, actual, expected)
+	cleanup(t)
+}

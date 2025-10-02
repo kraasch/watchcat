@@ -10,15 +10,8 @@ import (
 	lip "github.com/charmbracelet/lipgloss"
 
 	// local packages.
-	gocfg "github.com/kraasch/watchcat/pkg/gocfg"
-	engine "github.com/kraasch/watchcat/pkg/wcat"
+	wcat "github.com/kraasch/watchcat/pkg/wcat"
 )
-
-const (
-	defaultConfigFilename = "config.toml"
-)
-
-var NL = fmt.Sprintln()
 
 var (
 	// return value.
@@ -60,9 +53,9 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 func (m model) View() string {
 	var str string
 	if verbose {
-		str = engine.Toast("Hello!")
+		str = wcat.Toast("Hello!")
 	} else {
-		str = engine.Toast("Hi!")
+		str = wcat.Toast("Hi!")
 	}
 	str = styleBox.Render(str)
 	return lip.Place(m.width, m.height, lip.Center, lip.Center, str)
@@ -70,27 +63,19 @@ func (m model) View() string {
 
 func main() {
 	// parse flags.
-	var list bool // alias flag for '-mode = "list"'
 	flag.BoolVar(&verbose, "verbose", false, "Show info")
 	flag.BoolVar(&suppress, "suppress", false, "Print nothing")
-	flag.BoolVar(&list, "list", false, "List mode (alias).")
-	configFlag := flag.String("config", "", "Path to the configuration file.")       // TODO: insert good default value.
-	modeFlag := flag.String("mode", "", "Mode of operation (e.g., none, list, tui)") // TODO: insert good default value.
+	configFlag := flag.String("config", "", "Path to the configuration file.")                  // TODO: insert good default value.
+	modeFlag := flag.String("mode", "none", "Mode of operation (e.g. tui, list, print-config)") // TODO: insert good default value.
 	flag.Parse()
 	configStr := *configFlag
 	modeStr := *modeFlag
-	if list && modeStr != "" { // do not accept mode and list flag at the same time.
-		fmt.Println("Flag error: only use -list or -mode 'mode', not both.")
-		os.Exit(1)
-	} else if list && modeStr == "" {
-		modeStr = "list"
-	}
-
-	// pase config file.
-	cfg := gocfg.Config{Filename: defaultConfigFilename, Path: configStr}
-
-	switch modeStr {
-	case "tui":
+	// create watchcat.
+	wc := wcat.New()
+	wc.ReadConfig(configStr)
+	// evaluate mode and what to do.
+	switch modeStr { // if mode != "tui" then solve things on the cli.
+	case "tui": // launch tui.
 		// init model.
 		m := model{0, 0}
 		// start bubbletea.
@@ -102,14 +87,9 @@ func main() {
 		if !suppress {
 			fmt.Println(tuiOutput)
 		}
-	case "list": // if mode != "tui" then solve things on the cli.
-		toml, err := cfg.ParseToml()
-		if err != nil {
-			fmt.Println("Error reading config file:", err)
-			os.Exit(1)
-		}
-		for _, target := range toml.Targets {
-			fmt.Printf("%v\n", target.Name)
-		}
+	case "list": // solve on cli.
+		fmt.Printf("%s", wc.ListTargets())
+	case "print-config": // solve on cli.
+		fmt.Printf("%s", wc.PrintConfig())
 	}
 } // fin.

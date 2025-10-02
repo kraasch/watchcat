@@ -5,14 +5,9 @@ import (
 	// this is a test.
 	"testing"
 
-	// printing and formatting.
-	"fmt"
-
 	// other imports.
 	"github.com/kraasch/godiff/godiff"
 )
-
-var NL = fmt.Sprintln()
 
 type TestList struct {
 	testName      string
