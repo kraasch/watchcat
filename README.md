@@ -14,6 +14,7 @@ Watchcat lets you define restrictions, watchcat then ...
   - reports failure to keep the layout,
   - suggests commands to fix the layout,
   - executes fixes automatically,
+  - can execute different fix strategies (`shred` vs `rm`),
   - can be scheduled to report or fix.
 
 Example of a bad directory graph.
@@ -34,6 +35,7 @@ Example of a good directory graph.
 ./ ./ ./    \. \. \. \. \.
    .
 ```
+
 ## Demo
 
 Demo picture:
@@ -52,9 +54,13 @@ Planned operation codes:
 
   - [ ] `E` -- allows directory to be empty.
   - [ ] `F` -- allows files in this directory
+  - [ ] `D` -- allows directories in this directory
+  - [ ] `G` -- allows the directory to have a Git repo.
   - [ ] `X` -- allows directory not to exist.
   - [ ] `e` -- requires directory to be empty.
   - [ ] `f` -- requires there be no files in this directory
+  - [ ] `d` -- requires there be no directories in this directory
+  - [ ] `g` -- requires the directory to have a Git repo.
   - [ ] `x` -- requires for the directory to exist.
 
 Operation codes ideas:
@@ -74,7 +80,6 @@ Operation codes ideas:
   - [ ] `w` = allow existence of Watchconf sub trees.
   - [ ] `W` = allow existence of Watchconf sub trees (recursively include them into the report).
   - [ ] `h` = allow existence of hidden directories and files.
-  - [ ] `g` = allow existence of git direcotries.
   - [ ] `G` = treat git directories as final nodes.
   - [ ] `p[a-Z...]` = allow file names to only contain the specified characters.
   - [ ] `P[a-Z...]` = allow directory names to only contain the specified characters.
@@ -92,16 +97,27 @@ Operation codes ideas:
 Watchconf example idea:
 
 ```text
-ezN[]              .                   : Comment.
-z                  ./folderA/          : Comment.
-ez                 ./folderA/subA/     : Comment.
-ez                 ./folderA/subB/     : Comment.
-zs                 ./folderB/          : Comment.
-e                  ./folderB/fileA.txt : Comment.
-z                  ./folderB/fileB.txt : Comment.
-ez                 ./folderC/          : Comment.
-t(txt,srt,sub,mp4) ./folderD/          : Comment.
-t(mp3)             ./folderE/          : Comment.
+ezN{}  .                   : Comment.
+z      ./folderA/          : Comment.
+ez     ./folderA/subA/     : Comment.
+ez     ./folderA/subB/     : Comment.
+zs     ./folderB/          : Comment.
+e      ./folderB/fileA.txt : Comment.
+z      ./folderB/fileB.txt : Comment.
+ez     ./folderC/          : Comment.
+       ./folderD/          :[t(txt,srt,sub,mp4)] Comment.
+t(mp3) ./folderE/          : Comment.
+```
+
+Name ideas:
+
+```text
+OPS    | PATH               | COMMENT or                   |
+PREFIX |                    | COMMENT with OPS SUFFIX      |
+-------+--------------------+------------------------------+--------
+ezN{}   .                   : Comment.                     | RULE
+        ./folderD/          :[t(txt,srt,sub,mp4)] Comment. | RULE
+                                                           | ...
 ```
 
 ## Features
@@ -112,6 +128,7 @@ List of features
   - [ ] report failure to keep the layout.
   - [ ] suggests commands to fix the layout.
   - [ ] executes fixes automatically.
+  - [ ] can execute different fix strategies (`shred` vs `rm`).
   - [ ] can be scheduled to report or fix.
 
 ## Tasks
@@ -122,14 +139,14 @@ Next:
 
 Later:
 
-  - [ ] allow definition of operations on the right side, by following the
-        comment `:` with brackets, ie `some/dir :(xxxx) Some comment.`
+  - [ ] [allow](allow) definition of operations on the right side, by following the
+        comment `:` with angular brackets, ie `some/dir :[xxxx] Some comment.`
   - [ ] extract `./pkg/gocfg/` into its own repo at `github.com/kraasch/gocfg`.
   - [ ] sort through **Ideas** section and delete it.
 
 Think about:
 
-  - [ ] are rules to files allowed, ie. `xx ~/downloads/abc.txt : some file` and
+  - [ ] are rules to files allowed, ie. `op ~/downloads/abc.txt : some file` and
         what operations are allowed on files?
 
 Done:
