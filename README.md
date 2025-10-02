@@ -139,7 +139,7 @@ Next:
 
 Later:
 
-  - [ ] [allow](allow) definition of operations on the right side, by following the
+  - [ ] allow definition of operations on the right side, by following the
         comment `:` with angular brackets, ie `some/dir :[xxxx] Some comment.`
   - [ ] extract `./pkg/gocfg/` into its own repo at `github.com/kraasch/gocfg`.
   - [ ] sort through **Ideas** section and delete it.
