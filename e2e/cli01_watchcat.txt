@@ -1,0 +1,4 @@
+firefox
+downloads
+downloads/done
+downloads/incomplete
