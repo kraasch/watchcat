@@ -43,10 +43,6 @@ Done:
 
 ### Some Tasks
 
-Next:
-
-  - [ ] extract `./pkg/gocfg/` into its own repo at `github.com/kraasch/gocfg`.
-
 Main purpose.
 
   - keep overview over files by white-listing everything
