@@ -1,17 +1,44 @@
 
-# watchcat
+# Watchcat
 
-Directory structure monitor and action dispatcher (TUI and CLI). 
+Directory structure monitor and fix dispatcher (TUI and CLI). 
 
 <p align="center">
   <img src="./resources/example.png" width="200"/>
 </p>
 
+The purpose of watchcat is define, restrict and fix the layout of a directory tree.
+
+Watchcat lets you define restrictions, watchcat then ...
+
+  - reports failure to keep the layout,
+  - suggests commands to fix the layout,
+  - executes fixes automatically,
+  - can be scheduled to report or fix.
+
+Example of a bad directory graph.
+
+```text
+  ______/______
+./ ./  / \    \
+      /\  \.  /\.
+     /  \   ./
+   ./\.  \.
+```
+
+Example of a good directory graph.
+
+```text
+         /\
+  ______/  \____________
+./ ./ ./    \. \. \. \. \.
+   .
+```
 ## Demo
 
 Demo picture:
 
-Coming...
+  - Coming...
 
 <!-- TODO: add demo.
 <p align="center">
@@ -19,11 +46,73 @@ Coming...
 </p>
 -->
 
+## Mini Documentation
+
+Planned operation codes:
+
+  - [ ] `E` -- allows directory to be empty.
+  - [ ] `F` -- allows files in this directory
+  - [ ] `X` -- allows directory not to exist.
+  - [ ] `e` -- requires directory to be empty.
+  - [ ] `f` -- requires there be no files in this directory
+  - [ ] `x` -- requires for the directory to exist.
+
+Operation codes ideas:
+
+  - [ ] `i` = ignore directory (ensure no rules are specified for directory subtree).
+  - [ ] `o` = ensure directory does not contain any files (linting: delete fast, shred -zu , view+select+delete).
+  - [ ] `O` = ensure directory does not contain any directories (linting: delete fast, shred -zu , view+select+delete).
+  - [ ] `z` = ensure directory or file is empty (if it exists) (linting: delete fast, shred -zu , view+select+delete).
+  - [ ] `e` = ensure directory or file exists (linting: create).
+  - [ ] `s` = ensure all files have the same directory depth.
+  - [ ] `T(e1[, en])` = ensure only the listed file types exist (as output by the linux command 'file').
+  - [ ] `t(e1[, en])` = ensure only the listed file endings exist (eg. .pdf, .txt, .md, .srt, .sub, .mp4, .mp3, etc).
+  - [ ] `d(N)` = ensure minimum directory depth of length N.
+  - [ ] `D(N)` = ensure maximum directory depth of length N.
+  - [ ] `f(N)` = ensure minimum file depth of length N.
+  - [ ] `F(N)` = ensure maximum file depth of length N.
+  - [ ] `w` = allow existence of Watchconf sub trees.
+  - [ ] `W` = allow existence of Watchconf sub trees (recursively include them into the report).
+  - [ ] `h` = allow existence of hidden directories and files.
+  - [ ] `g` = allow existence of git direcotries.
+  - [ ] `G` = treat git directories as final nodes.
+  - [ ] `p[a-Z...]` = allow file names to only contain the specified characters.
+  - [ ] `P[a-Z...]` = allow directory names to only contain the specified characters.
+  - [ ] `n[a-Z...]` = like n, but disallows specified characters.
+  - [ ] `N[a-Z...]` = like N, but disallows specified characters.
+  - [ ] `x(N)` = ensure file size max.
+  - [ ] `X(N)` = ensure file size min.
+  - [ ] `y(N)` = ensure directory size max.
+  - [ ] `Y(N)` = ensure directory size min.
+  - [ ] `a` = forbid duplicated files.
+  - [ ] `A` = forbid duplicated directories.
+  - [ ] `b` = forbid duplicated file names.
+  - [ ] `B` = forbid duplicated directory names.
+
+Watchconf example idea:
+
+```text
+ezN[]              .                   : Comment.
+z                  ./folderA/          : Comment.
+ez                 ./folderA/subA/     : Comment.
+ez                 ./folderA/subB/     : Comment.
+zs                 ./folderB/          : Comment.
+e                  ./folderB/fileA.txt : Comment.
+z                  ./folderB/fileB.txt : Comment.
+ez                 ./folderC/          : Comment.
+t(txt,srt,sub,mp4) ./folderD/          : Comment.
+t(mp3)             ./folderE/          : Comment.
+```
+
 ## Features
 
 List of features
 
-  - [ ] xxx
+  - [ ] define a layout.
+  - [ ] report failure to keep the layout.
+  - [ ] suggests commands to fix the layout.
+  - [ ] executes fixes automatically.
+  - [ ] can be scheduled to report or fix.
 
 ## Tasks
 
@@ -33,7 +122,14 @@ Next:
 
 Later:
 
+  - [ ] allow definition of operations on the right side, by following the
+        comment `:` with brackets, ie `some/dir :(xxxx) Some comment.`
   - [ ] extract `./pkg/gocfg/` into its own repo at `github.com/kraasch/gocfg`.
+
+Think about:
+
+  - [ ] are rules to files allowed, ie. `xx ~/downloads/abc.txt : some file` and
+        what operations are allowed on files?
 
 Done:
 
@@ -126,70 +222,6 @@ Tasks and purpose:
   - [ ] maybe use other linter or C module to identify size of direcotries faster.
   - [ ] implement the following watchconf codes.
   - [ ] make tests for all watchconf codes (and permutations).
-  - [ ] # watchconf codes (default linting: alert about broken rules).
-    - [ ] i             = ignore directory (ensure no rules are specified for directory subtree).
-    - [ ] o             = ensure directory does not contain any files (linting: delete fast, shred -zu , view+select+delete).
-    - [ ] O             = ensure directory does not contain any directories (linting: delete fast, shred -zu , view+select+delete).
-    - [ ] z             = ensure directory or file is empty (if it exists) (linting: delete fast, shred -zu , view+select+delete).
-    - [ ] e             = ensure directory or file exists (linting: create).
-    - [ ] s             = ensure all files have the same directory depth.
-    - [ ] T(e1[, en])   = ensure only the listed file types exist (as output by the linux command 'file').
-    - [ ] t(e1[, en])   = ensure only the listed file endings exist (eg. .pdf, .txt, .md, .srt, .sub, .mp4, .mp3, etc).
-    - [ ] d(N)          = ensure minimum directory depth of length N.
-    - [ ] D(N)          = ensure maximum directory depth of length N.
-    - [ ] f(N)          = ensure minimum file depth of length N.
-    - [ ] F(N)          = ensure maximum file depth of length N.
-    - [ ] w             = allow existence of Watchconf sub trees.
-    - [ ] W             = allow existence of Watchconf sub trees (recursively include them into the report).
-    - [ ] h             = allow existence of hidden directories and files.
-    - [ ] g             = allow existence of git direcotries.
-    - [ ] G             = treat git directories as final nodes.
-    - [ ] p[a-Z...]     = allow file names to only contain the specified characters.
-    - [ ] P[a-Z...]     = allow directory names to only contain the specified characters.
-    - [ ] n[a-Z...]     = like n, but disallows specified characters.
-    - [ ] N[a-Z...]     = like N, but disallows specified characters.
-    - [ ] x(N)          = ensure file size max.
-    - [ ] X(N)          = ensure file size min.
-    - [ ] y(N)          = ensure directory size max.
-    - [ ] Y(N)          = ensure directory size min.
-    - [ ] a             = forbid duplicated files.
-    - [ ] A             = forbid duplicated directories.
-    - [ ] b             = forbid duplicated file names.
-    - [ ] B             = forbid duplicated directory names.
-
-Example of a bad directory graph.
-
-```text
-  ______/______
-./ ./  / \    \
-      /\  \.  /\.
-     /  \   ./
-   ./\.  \.
-```
-
-Example of a good directory graph.
-
-```text
-         /\
-  ______/  \____________
-./ ./ ./    \. \. \. \. \.
-   .
-```
-
-Watchconf file example
-
-```text
-.                   ezN[ ]
-./folderA/          z
-./folderA/subA/     ez
-./folderA/subB/     ez
-./folderB/          zs
-./folderB/fileA.txt e
-./folderB/fileB.txt z
-./folderC/          ez
-./folderD/          t(txt,srt,sub,mp4)
-./folderE/          t(mp3)
-```
 
 ## Installation
 
