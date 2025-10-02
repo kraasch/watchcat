@@ -125,7 +125,7 @@ Later:
   - [ ] allow definition of operations on the right side, by following the
         comment `:` with brackets, ie `some/dir :(xxxx) Some comment.`
   - [ ] extract `./pkg/gocfg/` into its own repo at `github.com/kraasch/gocfg`.
-  - [ ] sort through [Ideas section](## Ideas) and delete it.
+  - [ ] sort through [Ideas section](#ideas) and delete it.
 
 Think about:
 
@@ -136,7 +136,7 @@ Done:
 
   - [ ] xxx
 
-## Ideas
+## Ideas {#ideas}
 
 Tasks and purpose:
 
