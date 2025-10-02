@@ -1,7 +1,6 @@
 
 [[targets]]
 name = "main"
-type = "config-relative" # Allowed: "absolute", "config-relative".
 dir = "../targetDir0/"
 rules = """
 firefox
@@ -11,7 +10,5 @@ downloads/incomplete
 """
 
 [[targets]]
-
 name = "secondary"
-type = "config-relative"
 dir = "../targetDir1/"

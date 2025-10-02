@@ -21,22 +21,23 @@ func (c *Config) ReadRawText() (string, error) {
 	return string(data), err
 }
 
-type MyConfig struct { // NOTE: example struct.
-	Version int
-	Name    string
-	Tags    []string
+type Target struct {
+	Name  string
+	Dir   string
+	Rules string // multiline string
 }
 
-// NOTE: example.
-var doc = `
-version = 2
-name = "go-toml"
-tags = ["go", "toml"]
-`
+type SerializedConfig struct {
+	Targets []Target `toml:"targets"`
+}
 
-func (c *Config) ParseToml() (MyConfig, error) {
-	var cfg MyConfig
-	err := toml.Unmarshal([]byte(doc), &cfg)
+func (c *Config) ParseToml() (SerializedConfig, error) {
+	raw, err0 := c.ReadRawText()
+	if err0 != nil {
+		return SerializedConfig{}, err0
+	}
+	var cfg SerializedConfig
+	err := toml.Unmarshal([]byte(raw), &cfg)
 	return cfg, err
 }
 

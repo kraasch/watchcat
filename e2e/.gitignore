@@ -1,3 +1,6 @@
 
 # ignore any sub directories (but not files in this directory).
 */
+
+# unignore asset directories.
+!*_assets/

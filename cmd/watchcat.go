@@ -103,12 +103,13 @@ func main() {
 			fmt.Println(tuiOutput)
 		}
 	case "list": // if mode != "tui" then solve things on the cli.
-		txt, err := cfg.ReadRawText()
+		toml, err := cfg.ParseToml()
 		if err != nil {
 			fmt.Println("Error reading config file:", err)
 			os.Exit(1)
 		}
-		fmt.Printf("config: %s\n", txt)
-		fmt.Printf("values: apples\npears\nbananas\ngrapes\n")
+		for _, target := range toml.Targets {
+			fmt.Printf("%v\n", target.Name)
+		}
 	}
 } // fin.
