@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestWatchcatCliListCommand(t *testing.T) {
+func TestWatchcatCliListCommand2(t *testing.T) {
 	setup(t)
 	cmd := exec.Command("./../build/watchcat", "-config", "../e2e/cli01/cfg", "-mode", "list")
 	expected := // expected program output.
@@ -16,7 +16,7 @@ func TestWatchcatCliListCommand(t *testing.T) {
 	cleanup(t)
 }
 
-func TestWatchcatCliPrintConfigCommand(t *testing.T) {
+func TestWatchcatCliPrintConfigCommand2(t *testing.T) {
 	setup(t)
 	cmd := exec.Command("./../build/watchcat", "-config", "../e2e/cli01/cfg", "-mode", "print-config")
 	expected := // expected program output.

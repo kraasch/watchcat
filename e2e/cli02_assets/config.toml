@@ -1,0 +1,16 @@
+
+[[targets]]
+name = "main"
+dir = "../targetDir0/"
+rulesLocation = "cfg"
+rules = """
+firefox
+downloads
+downloads/done
+downloads/incomplete
+"""
+
+[[targets]]
+name = "secondary"
+dir = "../targetDir1/"
+rulesLocation = "wc"
