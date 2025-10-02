@@ -3,13 +3,21 @@
 
 Directory structure monitor and action dispatcher (TUI and CLI). 
 
+<p align="center">
+  <img src="./resources/example.png" width="150"/>
+</p>
+
 ## Demo
 
 Demo picture:
 
+Coming...
+
+<!-- TODO: add demo.
 <p align="center">
   <img src="./resources/example.png" width="300"/>
 </p>
+-->
 
 ## Features
 
