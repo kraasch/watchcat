@@ -6,6 +6,8 @@ rulesLocation = "cfg"
 rules = """
 firefox
 downloads
+x downloads/notthere
+downloads/notthere2
 downloads/done
 downloads/incomplete
 """

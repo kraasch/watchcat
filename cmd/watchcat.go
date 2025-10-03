@@ -65,7 +65,8 @@ func main() {
 	// parse flags.
 	flag.BoolVar(&verbose, "verbose", false, "Show info")
 	flag.BoolVar(&suppress, "suppress", false, "Print nothing")
-	configFlag := flag.String("config", "", "Path to the configuration file.")                  // TODO: insert good default value.
+	configFlag := flag.String("config", "", "Path to the configuration file.") // TODO: insert good default value.
+	// Possible modes are: tui, list, print-config, report-rules.
 	modeFlag := flag.String("mode", "none", "Mode of operation (e.g. tui, list, print-config)") // TODO: insert good default value.
 	flag.Parse()
 	configStr := *configFlag
@@ -90,6 +91,8 @@ func main() {
 	case "list": // solve on cli.
 		fmt.Printf("%s", wc.ListTargets())
 	case "print-config": // solve on cli.
+		fmt.Printf("%s", wc.PrintConfig())
+	case "report-rules": // solve on cli.
 		fmt.Printf("%s", wc.PrintConfig())
 	}
 } // fin.

@@ -5,31 +5,23 @@ import (
 	"testing"
 )
 
-func TestWatchcatCliListCommand2(t *testing.T) {
+// If no rules are provided watchcat only checks if a directory exists or not.
+func TestWatchcatCliReportModeNoRules(t *testing.T) {
 	setup(t)
-	cmd := exec.Command("./../build/watchcat", "-config", "../e2e/cli01/cfg", "-mode", "list")
+	cmd := exec.Command("./../build/watchcat", "-config", "../e2e/cli01/cfg", "-mode", "report-rules")
 	expected := // expected program output.
-	"main" + NL +
-		"secondary" + NL
-	actual := captureAndExecute(t, cmd)
-	verify(t, actual, expected)
-	cleanup(t)
-}
-
-func TestWatchcatCliPrintConfigCommand2(t *testing.T) {
-	setup(t)
-	cmd := exec.Command("./../build/watchcat", "-config", "../e2e/cli01/cfg", "-mode", "print-config")
-	expected := // expected program output.
-	"main (config)          |" + NL +
-		"  firefox              |" + NL +
-		"  downloads            |" + NL +
-		"  downloads/done       |" + NL +
-		"  downloads/incomplete |" + NL +
-		"secondary (Watchconf)  |" + NL +
-		"  firefox              |" + NL +
-		"  downloads            |" + NL +
-		"  downloads/done       |" + NL +
-		"  downloads/incomplete |"
+	" [ ] main (config)          |" + NL +
+		"   [X] firefox              |" + NL +
+		"   [X] downloads            |" + NL +
+		"   [ ] downloads/notthere   |x" + NL +
+		"   [X] downloads/notthere2  |" + NL +
+		"   [X] downloads/done       |" + NL +
+		"   [X] downloads/incomplete |" + NL +
+		" [X] secondary (Watchconf)  |" + NL +
+		"   [X] firefox              |e" + NL +
+		"   [X] downloads            |" + NL +
+		"   [X] downloads/done       |eF" + NL +
+		"   [X] downloads/incomplete |e"
 	actual := captureAndExecute(t, cmd)
 	verify(t, actual, expected)
 	cleanup(t)

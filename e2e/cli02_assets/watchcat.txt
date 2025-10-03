@@ -1,4 +1,4 @@
-firefox
-downloads
-downloads/done
-downloads/incomplete
+e firefox                : I don't want any files in firefox/.
+  downloads              : I don't care what is in downloads/.
+e  downloads/done         : I don't want any files in downloads/done, except files.
+e  downloads/incomplete   : I don't want any files in downloads/incomplete at all.

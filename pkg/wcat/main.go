@@ -141,3 +141,26 @@ func (w *Watchcat) PrintConfig() string {
 	}
 	return padLinesToLongest(sb.String())
 }
+
+func (w *Watchcat) ReportRules() string {
+	var sb strings.Builder
+	length := len(w.toml.Targets)
+	for i, target := range w.toml.Targets {
+		mode := ""
+		switch target.RulesLocation {
+		case "cfg":
+			mode = "config"
+		case "wc":
+			mode = "Watchconf"
+		}
+		rules := target.Rules
+		rules = strings.TrimRight(rules, NL)
+		sb.WriteString(target.Name + " (" + mode + ")" + NL)
+		indentedRules := indentMultiLine(rules, "  ") // Two spaces.
+		sb.WriteString(indentedRules)
+		if i < length-1 { // Do not add a new line after the last target.
+			sb.WriteString(NL)
+		}
+	}
+	return padLinesToLongest(sb.String())
+}
