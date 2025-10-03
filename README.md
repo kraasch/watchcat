@@ -144,20 +144,20 @@ Done:
 
 Basic:
 
-  - [ ] `a(dyfz;min/max)` -- requires things (dir/file/symlink) to have names of minimum or maximum length or both.
+  - [ ] `a(dyfzh;min/max)` -- requires things (dir/file/symlink/hidden) to have names of minimum or maximum length or both.
   - [ ] `d` -- requires there be no directories in this directory.
-  - [ ] `e` -- requires directory to be empty.
+  - [ ] `e` -- requires directory to be empty, ie nothing at all (dir/files/sym/hidden).
   - [ ] `f` -- requires there be no files in this directory.
   - [ ] `g(xcpr)` -- requires the directory to have a Git repo (distinguish: repo exists, uncommit changes exist, unpushed changes exist, remote repo exists).
-  - [ ] `h(dfyz)` -- requires there to be no hidden things (dir/file/symlink) in this directory.
+  - [ ] `h(dyfzh)` -- requires there to be no hidden things (dir/file/symlink) in this directory.
   - [ ] `i(min/max)` -- requires directory to be of minimum or maximum size on disk or both.
-  - [ ] `l(dfyz)` -- requires names to only use lowercase letters (distinguish: files, directories, symlinks).
-  - [ ] `m(dfyz;min/max)` -- requires there to be things (dir/file/symlink) only from min to max tree depth.
+  - [ ] `l(dyfzh)` -- requires names to only use lowercase letters (distinguish: files, directories, symlinks, hidden).
+  - [ ] `m(dyfzh;min/max)` -- requires there to be things (dir/file/symlink/hidden) only from min to max tree depth.
   - [ ] `n(f;A-z,...)` -- requires thing names not to have the specified characters. See more info below.
-  - [ ] `r(dfyz;regex)` -- requires thing names (dir/file/symlink) to be like regex.
+  - [ ] `r(dyfzh;regex)` -- requires thing names (dir/file/symlink/hidden) to be like regex.
   - [ ] `s(min/max)` -- requires files to be of minimum or maximum size or both.
   - [ ] `t(type,...)` -- requires to be only to be of the specified file types.
-  - [ ] `u(dfyz)` -- requires names to only use uppercase letters (distinguish: files, directories, symlinks).
+  - [ ] `u(dyfzh)` -- requires names to only use uppercase letters (distinguish: files, directories, symlinks, hidden).
   - [ ] `w` = requires directory to have a Watchconf.
   - [ ] `x` -- requires for the directory to exist.
   - [ ] `y(hs)` -- requires there be no symlinks in this directory (distinguish: hard and soft).
@@ -168,12 +168,13 @@ Other:
   - [ ] `*` -- inherit all operands from parent.
   - [ ] `.` -- require directory to exist.
   - [ ] `?` -- requires the directory tree under this directory not have any rules specifications, not in config, nor Watchconf files.
-  - [ ] `b(dyfz)` -- requires there to be no duplicated things (dir/file/symlink).
-  - [ ] `p(dyfz)` -- requires there to be no duplicate thing names (dir/file/symlink).
+  - [ ] `b(dyfzh)` -- requires there to be no duplicated things (dir/file/symlink/hidden).
+  - [ ] `p(dyfzh)` -- requires there to be no duplicate thing names (dir/file/symlink/hidden).
 
 Combinations and shortcuts:
 
-  - [ ] `z` == `dyf`, requires the directory to be empty (of files, subdirectories and symlinks).
+  - [ ] `z` == `dyf` (directories/symlinks/files, not hidden ones).
+  - [ ] `h` == `dyf` (directories/symlinks/files, including hidden ones).
   - [ ] `{from-to;categories}`, special syntax which only allows certain categories at certain depth of the directory tree.
     - [ ] for example `{0-1d}` -- in this directory and below only directories, i.e. no files.
     - [ ] for example `{0-1d}{2gw}` -- in the directory level below only git repos or further Watchconf files.
@@ -184,7 +185,7 @@ Combinations and shortcuts:
 Notes:
 
   - [ ] `N` and `n`:
-    - [ ] distinguish: files, directories, symlinks.
+    - [ ] distinguish: files, directories, symlinks, hidden.
     - [ ] specify groups: `A-Z`, `a-z`, `A-z`, `0-9`, etc.
     - [ ] specify special groups: `<whitespace>`, `<alphanum>`, etc.
     - [ ] specify single characters: `abcABC!?:;,.-_=`, etc.
