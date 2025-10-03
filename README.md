@@ -257,28 +257,6 @@ ezN{}   .                   : Comment.                     | RULE
 
 Planned operand codes (op codes, or ops).
 
-Permissions:
-
-  - [ ] `A(dyfz;min/max)` -- allows things (dir/file/symlink) to have names of minimum or maximum length or both.
-  - [ ] `D` -- allows directories in this directory.
-  - [ ] `E` -- allows directory to be empty.
-  - [ ] `F` -- allows files in this directory.
-  - [ ] `G(xur)` -- allows the directory to have a Git repo (distinguish: repo exists, uncommit changes exist, remote repo exists).
-  - [ ] `H(dfyz)` -- allows hidden things (dir/file/symlink) in this directory.
-  - [ ] `I(min/max)` -- allows directory to be of minimum or maximum size on disk or both.
-  - [ ] `L(dfyz)` -- allows names to use lowercase letters (distinguish: files, directories, symlinks)
-  - [ ] `M(dyfz;min/max)` -- allows there to be things (dir/file/symlink) from min to max tree depth.
-  - [ ] `N(f;A-z,...)` -- allows thing names to have the specified characters. See more info below.
-  - [ ] `R(dfyz,regex)` -- allows thing names (dir/file/symlink) to be like regex.
-  - [ ] `S(min/max)` -- allows files to be of minimum or maximum size or both.
-  - [ ] `T(type,...)` -- allows files to be of the specified file types.
-  - [ ] `U(dfyz)` -- allows names to use uppercase letters (distinguish: files, directories, symlinks)
-  - [ ] `W` = allows directory to have Watchconf.
-  - [ ] `X` -- allows directory not to exist.
-  - [ ] `Y(hs)` -- allows symlinks in this directory (distinguish: hard and soft).
-
-Requirements:
-
   - [ ] `a(dyfz;min/max)` -- requires things (dir/file/symlink) to have names of minimum or maximum length or both.
   - [ ] `d` -- requires there be no directories in this directory.
   - [ ] `e` -- requires directory to be empty.
@@ -293,22 +271,27 @@ Requirements:
   - [ ] `s(min/max)` -- requires files to be of minimum or maximum size or both.
   - [ ] `t(type,...)` -- requires to be only to be of the specified file types.
   - [ ] `u(dfyz)` -- requires names to only use uppercase letters (distinguish: files, directories, symlinks).
-  - [ ] `w` = require directory to have Watchconf.
+  - [ ] `w` = requires directory to have a Watchconf.
   - [ ] `x` -- requires for the directory to exist.
   - [ ] `y(hs)` -- requires there be no symlinks in this directory (distinguish: hard and soft).
 
 Other:
 
-  - [ ] `*` -- forbid everything except allowed things (allows for uppercase letter specifications).
-  - [ ] `.` -- inherit all operands from parent.
-  - [ ] `!` -- require directory to exist.
+  - [ ] `!` -- forbid everything except allowed things (permissions through uppercase letter specifications).
+  - [ ] `*` -- inherit all operands from parent.
+  - [ ] `.` -- require directory to exist.
   - [ ] `?` -- requires the directory tree under this directory not have any rules specifications, not in config, nor Watchconf files.
   - [ ] `b(dyfz)` -- requires there to be no duplicated things (dir/file/symlink).
   - [ ] `p(dyfz)` -- requires there to be no duplicate thing names (dir/file/symlink).
 
-Combinations:
+Combinations and shortcuts:
 
   - [ ] `z` == `dyf`, requires the directory to be empty (of files, subdirectories and symlinks).
+  - [ ] `{from-to;categories}`, special syntax which only allows certain categories at certain depth of the directory tree.
+    - [ ] for example: `{0-1d}` -- in this directory and below only directories, i.e. no files.
+    - [ ] for example: `{0-1d}{2gw}` -- in the directory level below only git repos or further Watchconf files.
+    - [ ] for example: `{0-1d}{2f}`  -- in the directory level below only files.
+    - [ ] for example: `{0-1d}{2u}` -- in the directory level below git repos with uncommitted changes, but not without remotes.
 
 Notes:
 
