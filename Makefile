@@ -1,8 +1,7 @@
 
-test_e2e:
-	@make build > /dev/null 2>&1 # run a build before the e2e tests.
+test_unit:
 	go clean -testcache
-	go test -v ./e2e/...
+	go test -v ./pkg/...
 
 test:
 	@ echo '##############'
@@ -14,9 +13,10 @@ test:
 	@ echo '##############'
 	make test_e2e
 
-test_unit:
+test_e2e:
+	@make build > /dev/null 2>&1 # run a build before the e2e tests.
 	go clean -testcache
-	go test -v ./pkg/...
+	go test -v ./e2e/...
 
 clean:
 	rm -r ./e2e/cli01/
