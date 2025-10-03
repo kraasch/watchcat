@@ -15,26 +15,8 @@ Watchcat lets you define restrictions, watchcat then ...
   - suggests commands to fix the layout,
   - executes fixes automatically,
   - can execute different fix strategies (`shred` vs `rm`),
+  - lets you choose which fixes to run and which ones to ignore,
   - can be scheduled to report or fix.
-
-Example of a bad directory graph.
-
-```text
-  ______/______
-./ ./  / \    \
-      /\  \.  /\.
-     /  \   ./
-   ./\.  \.
-```
-
-Example of a good directory graph.
-
-```text
-         /\
-  ______/  \____________
-./ ./ ./    \. \. \. \. \.
-   .
-```
 
 ## Demo
 
@@ -48,53 +30,17 @@ Demo picture:
 </p>
 -->
 
-## Mini Documentation
+Example of a bad directory graph.
 
-Planned operation codes:
+```text
+  ______/______
+./ ./  / \    \
+      /\  \.  /\.
+     /  \   ./
+   ./\.  \.
+```
 
-  - [ ] `E` -- allows directory to be empty.
-  - [ ] `F` -- allows files in this directory
-  - [ ] `D` -- allows directories in this directory
-  - [ ] `G` -- allows the directory to have a Git repo.
-  - [ ] `X` -- allows directory not to exist.
-  - [ ] `e` -- requires directory to be empty.
-  - [ ] `f` -- requires there be no files in this directory
-  - [ ] `d` -- requires there be no directories in this directory
-  - [ ] `g` -- requires the directory to have a Git repo.
-  - [ ] `x` -- requires for the directory to exist.
-
-Operation codes ideas:
-
-  - [ ] `i` = ignore directory (ensure no rules are specified for directory subtree).
-  - [ ] `o` = ensure directory does not contain any files (linting: delete fast, shred -zu , view+select+delete).
-  - [ ] `O` = ensure directory does not contain any directories (linting: delete fast, shred -zu , view+select+delete).
-  - [ ] `z` = ensure directory or file is empty (if it exists) (linting: delete fast, shred -zu , view+select+delete).
-  - [ ] `e` = ensure directory or file exists (linting: create).
-  - [ ] `s` = ensure all files have the same directory depth.
-  - [ ] `T(e1[, en])` = ensure only the listed file types exist (as output by the linux command 'file').
-  - [ ] `t(e1[, en])` = ensure only the listed file endings exist (eg. .pdf, .txt, .md, .srt, .sub, .mp4, .mp3, etc).
-  - [ ] `d(N)` = ensure minimum directory depth of length N.
-  - [ ] `D(N)` = ensure maximum directory depth of length N.
-  - [ ] `f(N)` = ensure minimum file depth of length N.
-  - [ ] `F(N)` = ensure maximum file depth of length N.
-  - [ ] `w` = allow existence of Watchconf sub trees.
-  - [ ] `W` = allow existence of Watchconf sub trees (recursively include them into the report).
-  - [ ] `h` = allow existence of hidden directories and files.
-  - [ ] `G` = treat git directories as final nodes.
-  - [ ] `p[a-Z...]` = allow file names to only contain the specified characters.
-  - [ ] `P[a-Z...]` = allow directory names to only contain the specified characters.
-  - [ ] `n[a-Z...]` = like n, but disallows specified characters.
-  - [ ] `N[a-Z...]` = like N, but disallows specified characters.
-  - [ ] `x(N)` = ensure file size max.
-  - [ ] `X(N)` = ensure file size min.
-  - [ ] `y(N)` = ensure directory size max.
-  - [ ] `Y(N)` = ensure directory size min.
-  - [ ] `a` = forbid duplicated files.
-  - [ ] `A` = forbid duplicated directories.
-  - [ ] `b` = forbid duplicated file names.
-  - [ ] `B` = forbid duplicated directory names.
-
-Watchconf example idea:
+Watchconf example.
 
 ```text
 ezN{}  .                   : Comment.
@@ -109,15 +55,17 @@ ez     ./folderC/          : Comment.
 t(mp3) ./folderE/          : Comment.
 ```
 
-Name ideas:
+Example of a watchcat comamnd:
+
+`watchcat --execute`
+
+Example of a good directory graph after running watchcat:
 
 ```text
-OPS    | PATH               | COMMENT or                   |
-PREFIX |                    | COMMENT with OPS SUFFIX      |
--------+--------------------+------------------------------+--------
-ezN{}   .                   : Comment.                     | RULE
-        ./folderD/          :[t(txt,srt,sub,mp4)] Comment. | RULE
-                                                           | ...
+         /\
+  ______/  \____________
+./ ./ ./    \. \. \. \. \.
+   .
 ```
 
 ## Features
@@ -129,7 +77,12 @@ List of features
   - [ ] suggests commands to fix the layout.
   - [ ] executes fixes automatically.
   - [ ] can execute different fix strategies (`shred` vs `rm`).
+  - [ ] give user choice which fixes to run and which ones to ignore.
   - [ ] can be scheduled to report or fix.
+
+Done:
+
+  - [ ] xxx
 
 ## Tasks
 
@@ -139,21 +92,27 @@ Next:
 
 Later:
 
-  - [ ] allow definition of operations on the right side, by following the
-        comment `:` with angular brackets, ie `some/dir :[xxxx] Some comment.`
+  - [ ] require paths to directories in rules to end in `/` (similar to
+        gitignore files).
+  - [ ] allow definition of operands on the right side, by following the
+        comment `:` with angular brackets, ie `some/dir :[xxxx] Some comment.`.
   - [ ] extract `./pkg/gocfg/` into its own repo at `github.com/kraasch/gocfg`.
   - [ ] sort through **Ideas** section and delete it.
+  - [ ] throw an error if there is no Watchconf at the target's root (except if
+        rules are defined in watchcat's global configuration).
+    - [ ] maybe allow recursive search for Watchconf after setting some toggle
+          in watchcat's global configuration, eg. `ruleLocation = "recursive"`.
 
 Think about:
 
   - [ ] are rules to files allowed, ie. `op ~/downloads/abc.txt : some file` and
-        what operations are allowed on files?
+        what operands are allowed on files?
 
 Done:
 
   - [ ] xxx
 
-## Ideas
+## Ideas // TODO: remove later.
 
 Tasks and purpose:
 
@@ -275,6 +234,94 @@ import (
 
 watchcat.DoSomething("Hello")
 ```
+
+## Mini Documentation
+
+Watchcat defines layout rules for directory trees.
+Each directory tree is a target.
+All targets are listed in a watchcat configuration file.
+Rules can be defined in a watchcat configuration file or in a separate Watchconf
+file within the target directory.
+
+  - Watchcat config file: 
+  - Watchconf file: 
+
+```text
+OPS    | PATH               | COMMENT or                   |
+PREFIX |                    | COMMENT with OPS SUFFIX      |
+-------+--------------------+------------------------------+--------
+ezN{}   .                   : Comment.                     | RULE
+        ./folderD/          :[t(txt,srt,sub,mp4)] Comment. | RULE
+                                                           | ...
+```
+
+Planned operand codes (op codes, or ops).
+
+Permissions:
+
+  - [ ] `A(dyfz;min/max)` -- allows things (dir/file/symlink) to have names of minimum or maximum length or both.
+  - [ ] `D` -- allows directories in this directory.
+  - [ ] `E` -- allows directory to be empty.
+  - [ ] `F` -- allows files in this directory.
+  - [ ] `G(xur)` -- allows the directory to have a Git repo (distinguish: repo exists, uncommit changes exist, remote repo exists).
+  - [ ] `H(dfyz)` -- allows hidden things (dir/file/symlink) in this directory.
+  - [ ] `I(min/max)` -- allows directory to be of minimum or maximum size on disk or both.
+  - [ ] `L(dfyz)` -- allows names to use lowercase letters (distinguish: files, directories, symlinks)
+  - [ ] `M(dyfz;min/max)` -- allows there to be things (dir/file/symlink) from min to max tree depth.
+  - [ ] `N(f;A-z,...)` -- allows thing names to have the specified characters. See more info below.
+  - [ ] `R(dfyz,regex)` -- allows thing names (dir/file/symlink) to be like regex.
+  - [ ] `S(min/max)` -- allows files to be of minimum or maximum size or both.
+  - [ ] `T(type,...)` -- allows files to be of the specified file types.
+  - [ ] `U(dfyz)` -- allows names to use uppercase letters (distinguish: files, directories, symlinks)
+  - [ ] `W` = allows directory to have Watchconf.
+  - [ ] `X` -- allows directory not to exist.
+  - [ ] `Y(hs)` -- allows symlinks in this directory (distinguish: hard and soft).
+
+Requirements:
+
+  - [ ] `a(dyfz;min/max)` -- requires things (dir/file/symlink) to have names of minimum or maximum length or both.
+  - [ ] `d` -- requires there be no directories in this directory.
+  - [ ] `e` -- requires directory to be empty.
+  - [ ] `f` -- requires there be no files in this directory.
+  - [ ] `g(xur)` -- requires the directory to have a Git repo (distinguish: repo exists, uncommit changes exist, remote repo exists).
+  - [ ] `h(dfyz)` -- requires there to be no hidden things (dir/file/symlink) in this directory.
+  - [ ] `i(min/max)` -- requires directory to be of minimum or maximum size on disk or both.
+  - [ ] `l(dfyz)` -- requires names to only use lowercase letters (distinguish: files, directories, symlinks).
+  - [ ] `m(dfyz;min/max)` -- requires there to be things (dir/file/symlink) only from min to max tree depth.
+  - [ ] `n(f;A-z,...)` -- requires thing names not to have the specified characters. See more info below.
+  - [ ] `r(dfyz;regex)` -- requires thing names (dir/file/symlink) to be like regex.
+  - [ ] `s(min/max)` -- requires files to be of minimum or maximum size or both.
+  - [ ] `t(type,...)` -- requires to be only to be of the specified file types.
+  - [ ] `u(dfyz)` -- requires names to only use uppercase letters (distinguish: files, directories, symlinks).
+  - [ ] `w` = require directory to have Watchconf.
+  - [ ] `x` -- requires for the directory to exist.
+  - [ ] `y(hs)` -- requires there be no symlinks in this directory (distinguish: hard and soft).
+
+Other:
+
+  - [ ] `*` -- forbid everything except allowed things (allows for uppercase letter specifications).
+  - [ ] `.` -- inherit all operands from parent.
+  - [ ] `!` -- require directory to exist.
+  - [ ] `?` -- requires the directory tree under this directory not have any rules specifications, not in config, nor Watchconf files.
+  - [ ] `b(dyfz)` -- requires there to be no duplicated things (dir/file/symlink).
+  - [ ] `p(dyfz)` -- requires there to be no duplicate thing names (dir/file/symlink).
+
+Combinations:
+
+  - [ ] `z` == `dyf`, requires the directory to be empty (of files, subdirectories and symlinks).
+
+Notes:
+
+  - [ ] `N` and `n`:
+    - [ ] distinguish: files, directories, symlinks.
+    - [ ] specify groups: `A-Z`, `a-z`, `A-z`, `0-9`, etc.
+    - [ ] specify special groups: `<whitespace>`, `<alphanum>`, etc.
+    - [ ] specify single characters: `abcABC!?:;,.-_=`, etc.
+    - [ ] specify special characters: `<space>`, `<tab>`, etc.
+  - [ ] `T` and `t`:
+    - [ ] specify pre-defined single types: `jpg` (for jpeg and jpg), `png`, etc.
+    - [ ] specify pre-defined type groups: `<img>`, `<vid>`, `<aud>`, `<txt>`, `<bin>`, etc.
+    - [ ] tested with `file` command on linux (not by file ending, which is done by the `r()` operand.
 
 ## Related Projects
 
